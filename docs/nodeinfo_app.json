@@ -1,0 +1,28 @@
+{
+  "from": "int",
+  "to": "int",
+  "decoded": {
+    "portnum": "string",
+    "payload": "bytes",
+    "bitfield": "int",
+    "user": {
+      "id": "string",
+      "longName": "string",
+      "shortName": "string",
+      "macaddr": "string",
+      "hwModel": "string",
+      "role": "string",
+      "publicKey": "string",
+      "isUnmessagable": "bool",
+      "raw": "string"
+    }
+  },
+  "id": "int",
+  "rxTime": "int",
+  "rxSnr": "float",
+  "hopLimit": "int",
+  "rxRssi": "int",
+  "hopStart": "int",
+  "relayNode": "int",
+  "raw": "string"
+}

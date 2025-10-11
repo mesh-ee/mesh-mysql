@@ -1,0 +1,41 @@
+{
+  "from": "int",
+  "to": "int",
+  "decoded": {
+    "portnum": "string",
+    "payload": "bytes",
+    "bitfield": "int",
+    "position": {
+      "latitudeI": "int",
+      "longitudeI": "int",
+      "altitude": "int",
+      "time": "int",
+      "locationSource": "string",
+      "groundSpeed": "int",
+      "groundTrack": "int",
+      "precisionBits": "int",
+      "raw": {
+        "latitude_i": "int",
+        "longitude_i": "int",
+        "altitude": "int",
+        "time": "int",
+        "location_source": "string",
+        "ground_speed": "int",
+        "ground_track": "int",
+        "precision_bits": "int"
+      },
+      "latitude": "float",
+      "longitude": "float"
+    }
+  },
+  "id": "int",
+  "rxTime": "int",
+  "rxSnr": "float",
+  "hopLimit": "int",
+  "rxRssi": "int",
+  "hopStart": "int",
+  "relayNode": "int",
+  "raw": "string",
+  "fromId": "string",
+  "toId": "string"
+}

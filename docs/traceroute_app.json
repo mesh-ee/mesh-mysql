@@ -1,0 +1,24 @@
+{
+  "from": "int",
+  "to": "int",
+  "decoded": {
+    "portnum": "string",
+    "payload": "bytes",
+    "wantResponse": "bool",
+    "bitfield": "int",
+    "traceroute": {
+      "snrTowards": "list[int]",
+      "raw": "string",
+      "route": "list[int]"
+    }
+  },
+  "id": "int",
+  "rxTime": "int",
+  "hopLimit": "int",
+  "wantAck": "bool",
+  "viaMqtt": "bool",
+  "hopStart": "int",
+  "raw": "string",
+  "fromId": "string",
+  "toId": "string"
+}

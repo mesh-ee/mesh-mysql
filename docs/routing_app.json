@@ -1,0 +1,19 @@
+{
+  "from": "int",
+  "to": "int",
+  "decoded": {
+    "portnum": "string",
+    "payload": "bytes",
+    "requestId": "int",
+    "routing": {
+      "errorReason": "string",
+      "raw": "string"
+    }
+  },
+  "id": "int",
+  "rxTime": "int",
+  "priority": "string",
+  "raw": "string",
+  "fromId": "string",
+  "toId": "string"
+}

@@ -1,0 +1,51 @@
+{
+  "from": "int",
+  "to": "int",
+  "decoded": {
+    "portnum": "string",
+    "payload": "bytes",
+    "bitfield": "int",
+    "telemetry": {
+      "time": "int",
+      "deviceMetrics": {
+        "batteryLevel": "int",
+        "voltage": "float",
+        "channelUtilization": "float",
+        "airUtilTx": "float",
+        "uptimeSeconds": "int"
+      },
+      "environmentMetrics": {
+        "temperature": "float",
+        "relative_humidity": "float",
+        "barometricPressure": "float",
+        "voltage": "float",
+        "current": "float"
+      },
+      "localStats": {
+        "uptimeSeconds": "int",
+        "channelUtilization": "float",
+        "airUtilTx": "float",
+        "numPacketsTx": "int",
+        "numPacketsRx": "int",
+        "numPacketsRxBad": "int",
+        "numOnlineNodes": "int",
+        "numTotalNodes": "int",
+        "numRxDupe": "int",
+        "numTxRelay": "int",
+        "numTxRelayCanceled": "int",
+        "heapTotalBytes": "int",
+        "heapFreeBytes": "int"
+      },
+      "raw": "string"
+    }
+  },
+  "id": "int",
+  "rxTime": "int",
+  "rxSnr": "float",
+  "hopLimit": "int",
+  "rxRssi": "int",
+  "hopStart": "int",
+  "raw": "string",
+  "fromId": "string",
+  "toId": "string"
+}
