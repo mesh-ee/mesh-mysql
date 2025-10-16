@@ -29,7 +29,7 @@ def on_receive_data(packet, interface):
             case "ROUTING_APP":
                 print(f"Routing packet received: {packet}")
             case _:
-                print(f"Unknown port number: {portnum}")
+                print(f"Unknown port number: {portnum}\nPacket: {packet}")
                 return
     except Exception as e:
         print(f"Error processing packet: {e}")
