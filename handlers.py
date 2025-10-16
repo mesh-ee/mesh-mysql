@@ -206,7 +206,6 @@ def handle_telemetry_packet(packet, interface):
         temperature = environmentMetrics.get('temperature', None)
         humidity = environmentMetrics.get('relativeHumidity', None)
         pressure = environmentMetrics.get('barometricPressure', None)
-        print(f"Telemetry data:{environmentMetrics}")
         if battery is None and uptime is None and voltage is None and channel_util is None and air_util_tx is None and temperature is None and humidity is None and pressure is None:
             return
 

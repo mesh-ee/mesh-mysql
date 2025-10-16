@@ -16,10 +16,13 @@
       },
       "environmentMetrics": {
         "temperature": "float",
-        "relative_humidity": "float",
+        "relativeHumidity": "float",
         "barometricPressure": "float",
         "voltage": "float",
-        "current": "float"
+        "current": "float",
+        "gasResistance": "float",
+        "iaq": "float",
+        "lux": "float"
       },
       "localStats": {
         "uptimeSeconds": "int",
