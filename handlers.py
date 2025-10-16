@@ -1,4 +1,4 @@
-from db import SessionLocal, Message, Node, Telemetry, Position
+from db import SessionLocal, Message, Node, Telemetry, Position, Traceroute
 from pubsub import pub
 import json
 
@@ -25,7 +25,7 @@ def on_receive_data(packet, interface):
             case "TEXT_MESSAGE_APP":
                 handle_message_packet(packet, interface)
             case "TRACEROUTE_APP":
-                print(f"Traceroute packet received: {packet}")
+                handle_traceroute_packet(packet, interface)
             case "ROUTING_APP":
                 print(f"Routing packet received: {packet}")
             case _:
