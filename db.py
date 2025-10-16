@@ -23,8 +23,6 @@ class Node(Base):
     short_name = Column(String(64), nullable=True)
     role = Column(String(255), nullable=True)
     hw_model = Column(String(255), nullable=True)
-    longitude = Column(DECIMAL(10, 7), nullable=True)
-    latitude = Column(DECIMAL(10, 7), nullable=True)
     is_unmessagable = Column(Boolean, default=False)
     created_at = Column(TIMESTAMP, server_default=func.current_timestamp())
     updated_at = Column(TIMESTAMP, server_default=func.current_timestamp(), onupdate=func.current_timestamp())
@@ -53,6 +51,23 @@ class Node(Base):
         cascade="all, delete-orphan"
     )
 
+    positions = relationship(
+        "Position",
+        back_populates="node",
+        cascade="all, delete-orphan"
+    )
+
+
+class Position(Base):
+    __tablename__ = "positions"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    node_id = Column(Integer, ForeignKey("nodes.id", onupdate="CASCADE", ondelete="CASCADE"), nullable=False)
+    longitude = Column(DECIMAL(10, 7), nullable=True)
+    latitude = Column(DECIMAL(10, 7), nullable=True)
+    altitude = Column(Integer, nullable=True)
+
+    node = relationship("Node", back_populates="positions")
 
 class Message(Base):
     __tablename__ = "messages"

@@ -157,11 +157,12 @@ def handle_position_packet(packet, interface):
         from_long_id = packet.get("from", 0)
         latitude = position.get("latitude", 0.0)
         longitude = position.get("longitude", 0.0)
+        altitude = position.get("altitude", 0)
 
         if from_long_id == 0 or (latitude == 0.0 and longitude == 0.0):
             return
 
-        print(f"Received position from {from_long_id}: {latitude}, {longitude}")
+        print(f"Received position from {from_long_id}: {latitude}, {longitude}, {altitude}")
 
         session = SessionLocal()
         node = session.query(Node).filter_by(long_id=from_long_id).first()
@@ -171,8 +172,13 @@ def handle_position_packet(packet, interface):
             session.commit()
             print(f"Created minimal node entry for long_id {from_long_id}")
 
-        node.latitude = latitude
-        node.longitude = longitude
+        pos = Position(
+            node_id=node.id,
+            latitude=latitude,
+            longitude=longitude,
+            altitude=altitude
+        )
+        session.add(pos)
         session.commit()
         session.close()
 
