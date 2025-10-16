@@ -1,4 +1,4 @@
-from db import SessionLocal, Message, Node, Telemetry
+from db import SessionLocal, Message, Node, Telemetry, Position
 from pubsub import pub
 import json
 
