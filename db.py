@@ -66,6 +66,7 @@ class Position(Base):
     longitude = Column(DECIMAL(10, 7), nullable=True)
     latitude = Column(DECIMAL(10, 7), nullable=True)
     altitude = Column(Integer, nullable=True)
+    satsInView = Column(Integer, nullable=True)
     created_at = Column(TIMESTAMP, server_default=func.current_timestamp())
 
     node = relationship("Node", back_populates="positions")

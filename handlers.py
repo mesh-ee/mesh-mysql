@@ -158,6 +158,7 @@ def handle_position_packet(packet, interface):
         latitude = position.get("latitude", 0.0)
         longitude = position.get("longitude", 0.0)
         altitude = position.get("altitude", 0)
+        satsInView = position.get("satsInView", None)
 
         if from_long_id == 0 or (latitude == 0.0 and longitude == 0.0):
             return
@@ -176,7 +177,8 @@ def handle_position_packet(packet, interface):
             node_id=node.id,
             latitude=latitude,
             longitude=longitude,
-            altitude=altitude
+            altitude=altitude,
+            satsInView=satsInView
         )
         session.add(pos)
         session.commit()

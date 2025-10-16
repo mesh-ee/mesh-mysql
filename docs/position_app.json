@@ -13,6 +13,7 @@
       "locationSource": "string",
       "groundSpeed": "int",
       "groundTrack": "int",
+      "satsInView": "int",
       "precisionBits": "int",
       "raw": {
         "latitude_i": "int",
