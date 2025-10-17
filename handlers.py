@@ -244,14 +244,21 @@ def handle_traceroute_packet(packet, interface):
         from_node_id = packet.get('from', None)
         to_node_id = packet.get('to', None)
 
-        if (from_node_id is None or to_node_id is None):
+        if from_node_id is None or to_node_id is None:
             return
         
         traceroute = decoded.get('traceroute', {})
+        route = traceroute.get("route", [])
+        snr_towards = traceroute.get("snrTowards", [])
+
+        filtered_route = [h for h in route if h != 4294967295]
+        filtered_snr = [s for s in snr_towards if s != -128]
+
         hops = {
-            "snrTowards": traceroute.get("snrTowards", []),
-            "route": traceroute.get("route", [])
+            "route": filtered_route,
+            "snrTowards": filtered_snr
         }
+
         via_mqtt = packet.get('viaMqtt', False)
 
         print(f"Received traceroute from {from_node_id} to {to_node_id}: {hops}")
@@ -269,6 +276,7 @@ def handle_traceroute_packet(packet, interface):
             session.add(to_node)
             session.commit()
             print(f"Created minimal node entry for long_id {to_node_id}")
+
         traceroute_entry = Traceroute(
             from_node_id=from_node.id,
             to_node_id=to_node.id,
@@ -279,5 +287,6 @@ def handle_traceroute_packet(packet, interface):
         session.commit()
         session.close()
         print("Traceroute data saved to database!")
+
     except Exception as e:
         print(f"Error processing packet: {e}")
