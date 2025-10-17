@@ -160,18 +160,37 @@ def handle_position_packet(packet, interface):
         altitude = position.get("altitude", 0)
         satsInView = position.get("satsInView", None)
 
-        if from_long_id == 0 or (latitude == 0.0 and longitude == 0.0):
+        if (from_long_id == 0):
+            return
+
+        if (latitude == 0.0 and longitude == 0.0):
             return
 
         print(f"Received position from {from_long_id}: {latitude}, {longitude}, {altitude}")
-
         session = SessionLocal()
+
         node = session.query(Node).filter_by(long_id=from_long_id).first()
         if not node:
             node = Node(long_id=from_long_id)
             session.add(node)
             session.commit()
             print(f"Created minimal node entry for long_id {from_long_id}")
+
+        if (packet.get('hopStart') == packet.get('hopLimit')):
+            rx_snr = int(packet.get('rxSnr') or 0)
+            via_mqtt = packet.get('viaMqtt', False)
+            hops = {
+                "snrTowards": [],
+                "route": []
+            }
+            hops.snrTowards.append(rx_snr)
+            traceroute_entry = Traceroute(
+                from_node_id=from_long_id,
+                to_node_id=MY_NODE_ID,
+                hops=json.dumps(hops),
+                via_mqtt=via_mqtt
+            )
+            session.add(traceroute_entry)
 
         pos = Position(
             node_id=node.id,
