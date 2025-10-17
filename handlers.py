@@ -185,7 +185,7 @@ def handle_position_packet(packet, interface):
             }
             hops["snrTowards"].append(rx_snr)
             traceroute_entry = Traceroute(
-                from_node_id=from_long_id,
+                from_node_id=node.id,
                 to_node_id=15, #magic number 
                 hops=json.dumps(hops),
                 via_mqtt=via_mqtt
@@ -248,7 +248,7 @@ def handle_telemetry_packet(packet, interface):
             }
             hops["snrTowards"].append(rx_snr)
             traceroute_entry = Traceroute(
-                from_node_id=from_long_id,
+                from_node_id=node.id,
                 to_node_id=15, #magic number 
                 hops=json.dumps(hops),
                 via_mqtt=via_mqtt
