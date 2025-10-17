@@ -176,20 +176,21 @@ def handle_position_packet(packet, interface):
             session.commit()
             print(f"Created minimal node entry for long_id {from_long_id}")
 
-        if (packet.get('hopStart') == packet.get('hopLimit')):
+        if packet.get('hopStart') == packet.get('hopLimit'):
             rx_snr = int(packet.get('rxSnr') or 0)
             via_mqtt = packet.get('viaMqtt', False)
             hops = {
                 "snrTowards": [],
                 "route": []
             }
-            hops.snrTowards.append(rx_snr)
+            hops["snrTowards"].append(rx_snr)  # Fixed here
             traceroute_entry = Traceroute(
                 from_node_id=from_long_id,
                 to_node_id=MY_NODE_ID,
                 hops=json.dumps(hops),
                 via_mqtt=via_mqtt
             )
+            print(f"Adding direct traceroute entry for position packet from {from_long_id} to {MY_NODE_ID}")
             session.add(traceroute_entry)
 
         pos = Position(
