@@ -1,6 +1,4 @@
 import logging
-logging.getLogger("sqlalchemy.engine").setLevel(logging.WARNING)
-
 import sys
 import time
 import meshtastic.tcp_interface
@@ -11,45 +9,62 @@ from dotenv import load_dotenv
 import os
 import sdnotify
 import socket
+import traceback
+
+logging.getLogger("sqlalchemy.engine").setLevel(logging.WARNING)
 
 load_dotenv()
 
+
+def connect_meshtastic(ip: str):
+    """Try to connect to a Meshtastic device via TCP and return the interface."""
+    print(f"Connecting to Meshtastic device at {ip}...")
+    iface = meshtastic.tcp_interface.TCPInterface(ip)
+    print("Connected to Meshtastic device!")
+    return iface
+
+
 def main():
     init_db()
-
     pub.subscribe(on_connected, "meshtastic.connection.established")
     pub.subscribe(on_receive_data, "meshtastic.receive")
 
     n = sdnotify.SystemdNotifier()
+    tcp_ip = os.getenv("TCP_INTERFACE_IP")
+
+    iface = None
+    reconnect_delay = 5
 
     while True:
-        iface = None
         try:
-            print("Connecting via tcp interface...")
-            iface = meshtastic.tcp_interface.TCPInterface(os.getenv("TCP_INTERFACE_IP"))
-            print("Connected to Meshtastic device!")
+            iface = connect_meshtastic(tcp_ip)
             n.notify("READY=1")
 
             while True:
                 n.notify("WATCHDOG=1")
                 time.sleep(10)
 
-        except (BrokenPipeError, ConnectionResetError, socket.error) as e:
-            print(f"[ERROR] Lost TCP connection: {e}. Reconnecting in 5s…")
+        except (BrokenPipeError, ConnectionResetError, socket.error, OSError) as e:
+            print(f"[WARN] Connection lost or failed: {e}")
+            traceback.print_exc()
+            print(f"Reconnecting in {reconnect_delay}s...")
             n.notify("WATCHDOG=1")
-            time.sleep(5)
+            time.sleep(reconnect_delay)
 
         except Exception as e:
-            print(f"[ERROR] Unexpected failure: {e}. Retrying in 10s…")
+            print(f"[ERROR] Unexpected failure: {e}")
+            traceback.print_exc()
+            print(f"Retrying in {reconnect_delay}s...")
             n.notify("WATCHDOG=1")
-            time.sleep(10)
+            time.sleep(reconnect_delay)
 
         finally:
             if iface:
                 try:
                     iface.close()
-                except Exception:
-                    pass
+                    print("Closed Meshtastic interface.")
+                except Exception as e:
+                    print(f"[WARN] Error closing interface: {e}")
                 iface = None
 
 
